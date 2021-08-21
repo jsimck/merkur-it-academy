@@ -5,7 +5,11 @@
     "moduleResolution": "node",
     "target": "es2020",
     "module": "es2015",
+    "baseUrl": ".",
     "paths": {
+      "#/*": [
+        "src/*"
+      ],
       "@merkur/core/*": [
         "node_modules/@merkur/core/lib/index.es5/*"
       ],
@@ -31,16 +35,16 @@
     "node_modules",
     "build",
     ".vscode",
-    ".nuxt",
     "coverage",
-    "jspm_packages",
-    "tmp",
-    "temp",
-    "bower_components",
     ".npm",
     ".yarn"
   ],
   "typeAcquisition": {
-    "enable": true
+    "enable": true,
+    "include": [
+      "preact",
+      "jest",
+      "testing-library__jest-dom"
+    ]
   }
 }

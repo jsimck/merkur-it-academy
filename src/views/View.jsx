@@ -1,11 +1,13 @@
-import { h } from 'preact'; // eslint-disable-line no-unused-vars
-import WidgetContext from '../components/WidgetContext';
-import Counter from '../components/Counter';
+import { h } from 'preact';
+
+import { Login } from '#/components/organism';
+import WidgetContext from '#/components/WidgetContext';
+import { modalSlotFactory } from '#/slots/ModalSlot/ModalSlot';
+
 import ErrorView from './ErrorView';
-import { headlineSlotFactory } from '../slots/HeadlineSlot';
 
 async function viewFactory(widget) {
-  const slots = (await Promise.all([headlineSlotFactory(widget)])).reduce(
+  const slots = (await Promise.all([modalSlotFactory(widget)])).reduce(
     (acc, cur) => {
       acc[cur.name] = cur;
 
@@ -27,10 +29,8 @@ function View(widget) {
 
   return (
     <WidgetContext.Provider value={widget}>
-      <div className="merkur__page">
-        <div className="merkur__view">
-          <Counter counter={widget.state.counter} />
-        </div>
+      <div className="m-merkur-login">
+        <Login />
       </div>
     </WidgetContext.Provider>
   );

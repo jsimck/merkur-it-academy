@@ -1,4 +1,4 @@
-import { h } from 'preact'; // eslint-disable-line no-unused-vars
+import { h } from 'preact';
 
 export default function ErrorView({ error }) {
   return (

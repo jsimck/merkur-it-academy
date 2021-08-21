@@ -6,25 +6,44 @@ const {
   pipe,
 } = require('@merkur/tools/webpack.cjs');
 
+const { applyBabelLoader } = require('./tools/babelLoaders');
+const {
+  removeDefaultCssLoaders,
+  applyStyleLoaders,
+} = require('./tools/styleLoaders');
+const {
+  applyAliases,
+  applyExternals,
+  applySourceMaps,
+} = require('./tools/utilityLoaders');
+
 createLiveReloadServer();
 
-function applyBabelLoader(config) {
-  config.module.rules.push({
-    test: /\.(js|jsx)$/,
-    exclude: /node_modules/,
-    use: {
-      loader: 'babel-loader',
-      options: {
-        presets: [['@babel/preset-react', { pragma: 'h' }]],
-      },
-    },
-  });
-
-  return config;
-}
-
 module.exports = Promise.all([
-  pipe(createWebConfig, applyBabelLoader)(),
-  pipe(createWebConfig, applyBabelLoader, applyES5Transformation)(),
-  pipe(createNodeConfig, applyBabelLoader)(),
+  pipe(
+    createWebConfig,
+    applyAliases,
+    removeDefaultCssLoaders,
+    applyStyleLoaders,
+    applySourceMaps,
+    applyBabelLoader
+  )(),
+  pipe(
+    createWebConfig,
+    applyAliases,
+    removeDefaultCssLoaders,
+    applyStyleLoaders,
+    applyBabelLoader,
+    applySourceMaps,
+    applyES5Transformation
+  )(),
+  pipe(
+    createNodeConfig,
+    applyAliases,
+    removeDefaultCssLoaders,
+    applyStyleLoaders,
+    applySourceMaps,
+    applyExternals,
+    applyBabelLoader
+  )(),
 ]);

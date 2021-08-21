@@ -1,12 +1,24 @@
 import { componentPlugin } from '@merkur/plugin-component';
-import { eventEmitterPlugin } from '@merkur/plugin-event-emitter';
 import { errorPlugin } from '@merkur/plugin-error';
+import { eventEmitterPlugin } from '@merkur/plugin-event-emitter';
+import {
+  httpClientPlugin,
+  setDefaultConfig,
+  transformBody,
+  transformQuery,
+} from '@merkur/plugin-http-client';
+
 import pkg from '../package.json';
 
 export default {
   name: pkg.name,
   version: pkg.version,
-  $plugins: [componentPlugin, eventEmitterPlugin, errorPlugin],
+  $plugins: [
+    componentPlugin,
+    eventEmitterPlugin,
+    errorPlugin,
+    httpClientPlugin,
+  ],
   assets: [
     {
       name: 'polyfill.js',
@@ -21,20 +33,26 @@ export default {
       type: 'stylesheet',
     },
   ],
-  onClick(widget) {
-    widget.setState({ counter: widget.state.counter + 1 });
+  openModal(widget) {
+    widget.setState({ isModalVisible: true });
   },
-  onReset(widget) {
-    widget.setState({ counter: 0 });
+  closeModal(widget) {
+    widget.setState({ isModalVisible: false });
   },
   load(widget) {
-    // We don't want to set environment into app state
     // eslint-disable-next-line no-unused-vars
     const { environment, ...restProps } = widget.props;
 
     return {
-      counter: 0,
+      isModalVisible: false,
+      user: null,
       ...restProps,
     };
+  },
+  bootstrap(widget) {
+    // Init http client default config
+    setDefaultConfig(widget, {
+      transformers: [transformBody(), transformQuery()],
+    });
   },
 };

@@ -1,0 +1,12 @@
+{
+  "john.doe": {
+    "password": "aec1b292625f17a797d0fee3a7bd38a914ee28930751b02f0fc0168b98135785f87e169725b0b09786949c710a3422f9bed8ad1589f696c2a7a56988b0f43bf9",
+    "username": "john.doe",
+    "displayName": "John Doe",
+    "avatar": "https://www.blexar.com/avatar.png"
+  },
+  "jane.doe": {
+    "username": "jane.doe",
+    "password": "ae5092b0773cdb4c261d177db39bbef2a2413ee14993ce836e94eb39ce074187359621bfde187e8acfafa03000dba1288950e56e85aaf0215a74e56adb511df3"
+  }
+}

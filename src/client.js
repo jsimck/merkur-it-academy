@@ -1,10 +1,13 @@
+// eslint-disable-next-line import/order
+import './style.css';
 import { render, hydrate } from 'preact';
 import { unmountComponentAtNode } from 'preact/compat';
+
 import { createMerkurWidget, createMerkur } from '@merkur/core';
-import { viewFactory } from './views/View.jsx';
-import widgetProperties from './widget';
+
 import { mapViews } from './lib/utils';
-import style from './style.css'; // eslint-disable-line no-unused-vars
+import { viewFactory } from './views/View';
+import widgetProperties from './widget';
 
 function createWidget(widgetParams) {
   return createMerkurWidget({

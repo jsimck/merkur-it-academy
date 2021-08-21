@@ -1,9 +1,9 @@
-const path = require('path');
 const fs = require('fs');
+const path = require('path');
 
-const got = require('got');
-const express = require('express');
 const ejs = require('ejs');
+const express = require('express');
+const got = require('got');
 
 const { playgroundErrorMiddleware } = require('@merkur/plugin-error/server');
 
@@ -22,10 +22,7 @@ router
       const widgetProperties = await got(`${getServerUrl(req)}/widget`, {
         retry: 0,
         responseType: 'json',
-        searchParams: {
-          name: 'merkur',
-          counter: 0,
-        },
+        searchParams: {},
       }).json();
 
       const { html, assets, ...restProperties } = widgetProperties;
