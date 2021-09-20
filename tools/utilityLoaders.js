@@ -32,6 +32,7 @@ function applySourceMaps(config) {
 }
 
 function applyAliases(config) {
+  config.stats = 'minimal';
   config.resolve.alias = {
     '#': path.resolve(__dirname, '../src'),
   };

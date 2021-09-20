@@ -35,7 +35,12 @@
     "node_modules",
     "build",
     ".vscode",
+    ".nuxt",
     "coverage",
+    "jspm_packages",
+    "tmp",
+    "temp",
+    "bower_components",
     ".npm",
     ".yarn"
   ],

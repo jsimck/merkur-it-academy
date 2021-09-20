@@ -1,11 +1,24 @@
-const sha3 = require('crypto-js/sha3');
+const { createHash } = require('crypto');
 
+const AUTH_SALT = 'merkur-it-academy-auth-salt';
+const AUTH_COOKIE_SALT = 'e6701c92-27af-5305-92b6-cd1276ad635c';
 const AUTH_COOKIE = 'merkur-it-academy-auth';
-const AUTH_SECRET = 'e6701c92-27af-5305-92b6-cd1276ad635c';
 
-function generateAuthCookie(username) {
+function createAuthCookieValue(username) {
+  return createHash('sha3-512')
+    .update(`${AUTH_COOKIE_SALT}_${username}`)
+    .digest('base64');
+}
+
+function encryptPassword(password) {
+  return createHash('sha3-512')
+    .update(`${AUTH_SALT}_${password}`)
+    .digest('base64');
+}
+
+function createAuthCookie(username) {
   const oneDay = 1000 * 60 * 60 * 24;
-  const cookieValue = sha3(`${AUTH_SECRET}-${username}`).toString();
+  const cookieValue = createAuthCookieValue(username);
 
   return [
     AUTH_COOKIE,
@@ -13,17 +26,16 @@ function generateAuthCookie(username) {
     {
       expires: new Date(Date.now() + oneDay),
       httpOnly: true,
+      sameSite: 'lax',
     },
   ];
 }
 
-function parseAuthCookie(username) {
-  return sha3(`${AUTH_SECRET}-${username}`).toString();
-}
-
 module.exports = {
   AUTH_COOKIE,
-  AUTH_SECRET,
-  generateAuthCookie,
-  parseAuthCookie,
+  AUTH_COOKIE_SALT,
+  AUTH_SALT,
+  createAuthCookie,
+  createAuthCookieValue,
+  encryptPassword,
 };

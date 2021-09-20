@@ -1,8 +1,6 @@
 import { h } from 'preact';
 import { useCallback, useState } from 'preact/hooks';
 
-import sha3 from 'crypto-js/sha3';
-
 import { Modal } from '#/components/atom';
 import { useLogin, useWidget } from '#/components/hooks';
 import { LoginForm } from '#/components/molecule';
@@ -20,7 +18,7 @@ export default function LoginModal() {
     setError(null);
     const { status, data, message } = await execute({
       username,
-      password: sha3(password).toString(),
+      password,
     });
 
     if (status === 'success') {

@@ -1,107 +1,101 @@
 const express = require('express');
 
 const {
-  generateAuthCookie,
   AUTH_COOKIE,
-  parseAuthCookie,
+  createAuthCookie,
+  createAuthCookieValue,
+  encryptPassword,
 } = require('./authUtils');
 
 const UserDB = require('../../mocks/users.json');
 
 const router = express.Router();
 
-router.post('/login', async (req, res) => {
-  try {
-    const { username, password } = req?.body ?? {};
+function userResponse(res, user) {
+  const userCopy = { ...user };
+  delete userCopy.password;
 
-    if (!username || !password) {
-      return res
-        .status(400)
-        .json({ message: 'Either password or username is invalid.' });
-    }
+  return res
+    .status(200)
+    .cookie(...createAuthCookie(user.username))
+    .json({
+      data: {
+        user: userCopy,
+      },
+    });
+}
 
-    const user = UserDB[username];
+router
+  .post('/login', async (req, res) => {
+    try {
+      const { username, password } = req?.body ?? {};
 
-    if (!user) {
-      return res
-        .status(400)
-        .json({ message: `User with ${username} not found.` });
-    }
+      if (!username || !password) {
+        return res
+          .status(400)
+          .json({ message: 'Either password or username is invalid.' });
+      }
 
-    if (password !== user.password) {
-      return res.status(400).json({ message: 'Invalid password.' });
-    }
+      const user = UserDB[username];
 
-    const userCopy = { ...user };
-    delete userCopy.password;
+      if (!user) {
+        return res
+          .status(400)
+          .json({ message: `User with '${username}' not found.` });
+      }
 
-    res
-      .status(200)
-      .cookie(...generateAuthCookie(username))
-      .json({
-        data: {
-          user: userCopy,
-        },
+      if (encryptPassword(password) !== user.password) {
+        return res.status(400).json({ message: 'Invalid password.' });
+      }
+
+      return userResponse(res, user);
+    } catch (error) {
+      return res.status(500).json({
+        message: error.message,
       });
-  } catch (error) {
-    return res.status(500).json({
-      message: error.message,
-    });
-  }
-});
-
-router.get('/check', async (req, res) => {
-  try {
-    const cookies = req.cookies;
-
-    if (!cookies) {
-      return res
-        .status(401)
-        .json({ message: 'Received empty cookies with user request.' });
     }
+  })
+  .get('/check', async (req, res) => {
+    try {
+      const cookies = req.cookies;
 
-    const authCookie = cookies[AUTH_COOKIE];
+      if (!cookies) {
+        return res
+          .status(401)
+          .json({ message: 'Received empty cookies with user request.' });
+      }
 
-    if (!authCookie) {
-      return res
-        .status(401)
-        .json({ message: 'No auth cookie present on user request.' });
-    }
+      const authCookie = cookies[AUTH_COOKIE];
 
-    const username = Object.keys(UserDB).find(
-      (username) => authCookie === parseAuthCookie(username)
-    );
+      if (!authCookie) {
+        return res
+          .status(401)
+          .json({ message: 'No auth cookie present on user request.' });
+      }
 
-    if (!username) {
-      return res.status(401).json({ message: 'Invalid auth cookie' });
-    }
+      const username = Object.keys(UserDB).find(
+        (username) => authCookie === createAuthCookieValue(username)
+      );
 
-    const userCopy = { ...UserDB[username] };
-    delete userCopy.password;
+      if (!username) {
+        return res.status(401).json({ message: 'Invalid auth cookie' });
+      }
 
-    res
-      .status(200)
-      .cookie(...generateAuthCookie(username))
-      .json({
-        data: {
-          user: userCopy,
-        },
+      return userResponse(res, UserDB[username]);
+    } catch (error) {
+      return res.status(500).json({
+        message: error.message,
       });
-  } catch (error) {
-    return res.status(500).json({
-      message: error.message,
-    });
-  }
-});
-
-router.get('/logout', async (req, res) => {
-  try {
-    res.status(200).clearCookie(AUTH_COOKIE).end();
-  } catch (error) {
-    return res.status(500).json({
-      message: error.message,
-    });
-  }
-});
+    }
+  })
+  .get('/logout', async (req, res) => {
+    try {
+      res.status(200).clearCookie(AUTH_COOKIE).end();
+    } catch (error) {
+      return res.status(500).json({
+        message: error.message,
+      });
+    }
+  });
 
 module.exports = () => ({ router });

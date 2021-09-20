@@ -18,6 +18,8 @@ function useWidget() {
   );
 }
 
+// presunout logiku fetchování do widgetu tka at jde jednoduše přepnout view engine
+// response.status -> puzivat status.ok
 function useApi(
   path,
   options = {
@@ -43,7 +45,7 @@ function useApi(
       });
 
       result = {
-        status: response.status <= 299 ? 'success' : 'error',
+        status: response.ok ? 'success' : 'error',
         ...response.body,
       };
     } catch (error) {
