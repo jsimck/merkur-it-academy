@@ -1,35 +1,19 @@
 import { h } from 'preact';
-import { useEffect } from 'preact/hooks';
+import { useCallback } from 'preact/hooks';
 
 import { useCheck, useWidget } from '#/components/hooks';
 import { User, LoginButton } from '#/components/molecule';
 
 export default function Login() {
   const {
-    setState,
     widget: { state },
   } = useWidget();
-  const { execute, isLoading } = useCheck();
+  const { check, isLoading } = useCheck();
 
-  useEffect(() => {
-    if (typeof window === 'undefined') {
-      return null;
-    }
-
-    execute().then(({ status, data, message }) => {
-      if (status === 'success') {
-        setState({
-          user: data?.user,
-        });
-      } else {
-        console.error(message);
-      }
-    });
+  // Call only on component mount
+  useCallback(() => {
+    check();
   }, []);
 
-  return state?.user ? (
-    <User />
-  ) : (
-    <LoginButton disabled={isLoading || typeof window === 'undefined'} />
-  );
+  return state?.user ? <User /> : <LoginButton disabled={isLoading} />;
 }

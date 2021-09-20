@@ -1,8 +1,6 @@
-import { useContext, useMemo, useState } from 'preact/hooks';
+import { useCallback, useContext, useMemo, useState } from 'preact/hooks';
 
 import WidgetContext from './WidgetContext';
-
-const BASE_API_URL = 'http://localhost:4444';
 
 function useWidget() {
   const widget = useContext(WidgetContext);
@@ -13,70 +11,76 @@ function useWidget() {
       openModal: widget.openModal,
       closeModal: widget.closeModal,
       setState: widget.setState,
+      login: widget.login,
+      logout: widget.logout,
+      check: widget.check,
     }),
     [widget]
   );
 }
 
-// presunout logiku fetchování do widgetu tka at jde jednoduše přepnout view engine
-// response.status -> puzivat status.ok
-function useApi(
-  path,
-  options = {
-    method: 'GET',
-  }
-) {
-  const { http } = useContext(WidgetContext);
+function useLogin() {
+  const { setState, login } = useWidget();
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-  const execute = async (body) => {
-    let result = null;
-    setIsLoading(true);
-
+  const loginCallback = async ({ username, password }) => {
     try {
-      const { response } = await http.request({
-        url: `${BASE_API_URL}${path}`,
-        method: options?.method ?? 'GET',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body,
+      setIsLoading(true);
+      await login({ username, password });
+
+      setState({
+        isModalVisible: false,
       });
-
-      result = {
-        status: response.ok ? 'success' : 'error',
-        ...response.body,
-      };
-    } catch (error) {
-      console.error(error);
-
-      result = {
-        status: 'error',
-        message: 'Something unexpected happened.',
-      };
+    } catch (e) {
+      setError(e.message);
     } finally {
       setIsLoading(false);
     }
-
-    return result;
   };
 
-  return { isLoading, execute };
-}
-
-function useLogin() {
-  return useApi('/auth/login', {
-    method: 'POST',
-  });
+  return { login: loginCallback, isLoading, error };
 }
 
 function useLogout() {
-  return useApi('/auth/logout');
+  const { logout } = useWidget();
+  const [isLoading, setIsLoading] = useState(false);
+
+  const logoutCallback = useCallback(async () => {
+    try {
+      setIsLoading(true);
+      await logout();
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(true);
+    }
+  }, [logout]);
+
+  return { logout: logoutCallback, isLoading };
 }
 
 function useCheck() {
-  return useApi('/auth/check');
+  const { check } = useWidget();
+  const [isLoading, setIsLoading] = useState(true);
+
+  const checkCallback = useCallback(async () => {
+    if (typeof window === 'undefined') {
+      setIsLoading(false);
+      return null;
+    }
+
+    check()
+      .then(() => {
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        setIsLoading(false);
+        console.error(error);
+      });
+  }, [check]);
+
+  return { check: checkCallback, isLoading };
 }
 
-export { useWidget, useApi, useLogin, useLogout, useCheck };
+export { useWidget, useLogin, useLogout, useCheck };

@@ -7,23 +7,14 @@ import './user.less';
 
 export default function User() {
   const {
-    setState,
     widget: { state },
   } = useWidget();
-  const { execute, isLoading } = useLogout();
-
+  const { logout, isLoading } = useLogout();
   const handleLogout = async (event) => {
     event.preventDefault();
-    const { status, message } = await execute();
-
-    if (status === 'success') {
-      setState({
-        user: null,
-      });
-    } else {
-      console.error(message);
-    }
+    logout();
   };
+
   return (
     <div className="m-user">
       {state.user?.avatar && (

@@ -78,7 +78,7 @@ router
       );
 
       if (!username) {
-        return res.status(401).json({ message: 'Invalid auth cookie' });
+        return res.status(401).json({ message: 'Invalid auth cookie.' });
       }
 
       return userResponse(res, UserDB[username]);
