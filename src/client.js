@@ -1,5 +1,5 @@
 // eslint-disable-next-line import/order
-import './style.css';
+import './style.less';
 import { render, hydrate } from 'preact';
 import { unmountComponentAtNode } from 'preact/compat';
 
