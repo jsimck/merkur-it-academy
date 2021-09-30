@@ -47,6 +47,7 @@
   },
   "devDependencies": {
     "@babel/preset-react": "^7.14.5",
+    "@merkur/tool-storybook": "^0.27.0",
     "@merkur/tool-webpack": "^0.27.0",
     "@merkur/tools": "^0.27.0",
     "@storybook/addon-actions": "^6.3.8",

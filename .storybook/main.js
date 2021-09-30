@@ -3,7 +3,8 @@ const path = require('path');
 
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
-const { applyStyleLoaders } = require('../tools/styleLoaders');
+const { applyStyleLoaders, pipe } = require('@merkur/tool-webpack');
+const { applyBabelLoader } = require('../tools/babelLoaders');
 const { applyAliases } = require('../tools/utilityLoaders');
 
 // Has to be required for storybook to work
@@ -25,55 +26,41 @@ function insertAfterLastAtStorybookEntry(entries, entry) {
 
 module.exports = {
   webpackFinal: async currentConfig => {
-		// Widget aliases
-		const config = applyAliases(currentConfig);
+		return pipe(
+			() => currentConfig,
+			applyAliases,
+			applyBabelLoader,
+			(config, context) => {
+				config = applyStyleLoaders(config, context);
+				const lastRuleIndex = config.module.rules.length - 1;
 
-		// Custom jsx config
-		config.module.rules[0].use = [
-			{
-        loader: 'babel-loader',
-        options: {
-          presets: [['@babel/preset-react', { pragma: 'h' }]],
-          plugins: [
-            '@babel/plugin-proposal-nullish-coalescing-operator',
-            '@babel/plugin-proposal-optional-chaining',
-          ],
-        },
-      }
-		];
+				config.module.rules[lastRuleIndex].use.splice(0, 1, { loader: 'style-loader' });
+				return config;
+			},
+			(config) => {
+				// add widget client and styles to storybook build
+				const clientJs = path.resolve('./', 'src/client.js');
 
-		// Add style loaders
-		const styleConfig = applyStyleLoaders({
-			optimization: {},
-			module: { rules: [] },
-			plugins: []
-		});
+				if (fs.existsSync(clientJs)) {
+					/* We can't append it to the end, because Webpack
+					would ignore CSS order. */
+					insertAfterLastAtStorybookEntry(config.entry, clientJs);
+				}
 
-		styleConfig.module.rules[0].use.splice(0, 1, { loader: 'style-loader' });
-		config.module.rules.push(styleConfig.module.rules[0]);
+				config.resolve.alias.storybook = path.resolve(__dirname, '');
 
-		// add widget client and styles to storybook build
-		const clientJs = path.resolve('./', 'src/client.js');
+				// hide performance warnings
+				config.performance = {
+					maxEntrypointSize: 5120000,
+					maxAssetSize: 5120000
+				};
 
-		if (fs.existsSync(clientJs)) {
-			/* We can't append it to the end, because Webpack
-               would ignore CSS order. */
-			insertAfterLastAtStorybookEntry(config.entry, clientJs);
-		}
-
-		// necessary plugin for dev style loader
-		config.plugins.push(new MiniCssExtractPlugin());
-
-		config.resolve.alias.storybook = path.resolve(__dirname, '');
-
-		// hide performance warnings
-		config.performance = {
-			maxEntrypointSize: 5120000,
-			maxAssetSize: 5120000
-		};
-
-		// extend widget config by storybook config
-		return config;
+				return config;
+			}
+		)({
+			isServer: false,
+			useLessLoader: true,
+		  });
 	},
   stories: [
     '../src/**/*.stories.mdx',
