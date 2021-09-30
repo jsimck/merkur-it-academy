@@ -1,5 +1,3 @@
-import { h } from 'preact';
-
 import { LoginModal } from '#/components/organism';
 import WidgetContext from '#/components/WidgetContext';
 
@@ -21,7 +19,7 @@ function ModalSlot(widget) {
 
   return (
     <WidgetContext.Provider value={widget}>
-      <div className="m-merkur-login">
+      <div className='m-merkur-login'>
         <LoginModal />
       </div>
     </WidgetContext.Provider>

@@ -1,6 +1,5 @@
 const path = require('path');
 
-const bodyParser = require('body-parser');
 const compression = require('compression');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
@@ -59,7 +58,7 @@ app
     '/@merkur/tools/static/',
     express.static(path.join(__dirname, '../node_modules/@merkur/tools/static'))
   )
-  .use(bodyParser.json())
+  .use(express.json())
   .use(cookieParser())
   .use(widgetAPI.router)
   .use(slowdownMiddleware())

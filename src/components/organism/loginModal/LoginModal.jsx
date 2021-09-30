@@ -1,4 +1,3 @@
-import { h } from 'preact';
 import { useCallback } from 'preact/hooks';
 
 import { Modal } from '#/components/atom';
@@ -21,7 +20,7 @@ export default function LoginModal() {
   );
 
   return (
-    <Modal title="Sign in" onBackdrop={handleClose}>
+    <Modal title='Sign in' onBackdrop={handleClose}>
       <LoginForm
         onCancel={handleClose}
         onSubmit={handleSubmit}

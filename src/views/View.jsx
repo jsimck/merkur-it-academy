@@ -1,5 +1,3 @@
-import { h } from 'preact';
-
 import { Login } from '#/components/organism';
 import WidgetContext from '#/components/WidgetContext';
 import { modalSlotFactory } from '#/slots/ModalSlot/ModalSlot';
@@ -29,7 +27,7 @@ function View(widget) {
 
   return (
     <WidgetContext.Provider value={widget}>
-      <div className="m-merkur-login">
+      <div className='m-merkur-login'>
         <Login />
       </div>
     </WidgetContext.Provider>
