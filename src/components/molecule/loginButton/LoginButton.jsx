@@ -1,4 +1,3 @@
-import { h } from 'preact';
 import { useCallback } from 'preact/hooks';
 
 import { TextButton } from '#/components/atom';
@@ -17,7 +16,7 @@ export default function LoginButton({ disabled }) {
   );
 
   return (
-    <div className="m-login-button">
+    <div className='m-login-button'>
       <TextButton disabled={disabled} onClick={handleClick}>
         Sign in
       </TextButton>

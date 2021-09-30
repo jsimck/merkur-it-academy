@@ -3,47 +3,45 @@ const {
   createWebConfig,
   createNodeConfig,
   applyES5Transformation,
+  applyES9Transformation,
+  applyStyleLoaders,
   pipe,
-} = require('@merkur/tools/webpack.cjs');
+} = require('@merkur/tool-webpack');
 
 const { applyBabelLoader } = require('./tools/babelLoaders');
-const {
-  removeDefaultCssLoaders,
-  applyStyleLoaders,
-} = require('./tools/styleLoaders');
-const {
-  applyAliases,
-  applyExternals,
-  applySourceMaps,
-} = require('./tools/utilityLoaders');
+const { applyAliases } = require('./tools/utilityLoaders');
 
-createLiveReloadServer();
+const context = {
+  useLessLoader: true,
+};
 
-module.exports = Promise.all([
-  pipe(
-    createWebConfig,
-    applyAliases,
-    removeDefaultCssLoaders,
-    applyStyleLoaders,
-    applySourceMaps,
-    applyBabelLoader
-  )(),
-  pipe(
-    createWebConfig,
-    applyAliases,
-    removeDefaultCssLoaders,
-    applyStyleLoaders,
-    applyBabelLoader,
-    applySourceMaps,
-    applyES5Transformation
-  )(),
-  pipe(
-    createNodeConfig,
-    applyAliases,
-    removeDefaultCssLoaders,
-    applyStyleLoaders,
-    applySourceMaps,
-    applyExternals,
-    applyBabelLoader
-  )(),
-]);
+module.exports = createLiveReloadServer().then(() =>
+  Promise.all([
+    pipe(
+      createWebConfig,
+      applyAliases,
+      applyStyleLoaders,
+      applyBabelLoader
+    )(context),
+    pipe(
+      createWebConfig,
+      applyAliases,
+      applyStyleLoaders,
+      applyBabelLoader,
+      applyES5Transformation
+    )(context),
+    pipe(
+      createWebConfig,
+      applyAliases,
+      applyStyleLoaders,
+      applyBabelLoader,
+      applyES9Transformation
+    )(context),
+    pipe(
+      createNodeConfig,
+      applyAliases,
+      applyStyleLoaders,
+      applyBabelLoader
+    )(context),
+  ])
+);

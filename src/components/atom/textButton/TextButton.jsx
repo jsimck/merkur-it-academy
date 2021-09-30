@@ -1,5 +1,3 @@
-import { h } from 'preact';
-
 import cn from 'classnames';
 
 import './textButton.less';

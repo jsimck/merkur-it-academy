@@ -1,4 +1,3 @@
-import { h } from 'preact';
 import { forwardRef } from 'preact/compat';
 import { useRef } from 'preact/hooks';
 
@@ -10,9 +9,9 @@ function Input({ label, disabled, type = 'text' }, ref) {
   const inputUid = useRef(uid());
 
   return (
-    <div className="m-input">
+    <div className='m-input'>
       {label && (
-        <label className="m-input__label" htmlFor={inputUid}>
+        <label className='m-input__label' htmlFor={inputUid}>
           {label}
         </label>
       )}
@@ -21,7 +20,7 @@ function Input({ label, disabled, type = 'text' }, ref) {
         type={type}
         disabled={disabled}
         id={inputUid.current}
-        className="m-input__input"
+        className='m-input__input'
       />
     </div>
   );

@@ -1,4 +1,3 @@
-import { h } from 'preact';
 import { useRef } from 'preact/hooks';
 
 import { Button, Input } from '#/components/atom';
@@ -42,17 +41,17 @@ export default function LoginForm({
   );
 
   return (
-    <form onSubmit={handleSubmit} className="m-login-form">
-      <Input label="Username:" ref={usernameRef} disabled={disabled} />
+    <form onSubmit={handleSubmit} className='m-login-form'>
+      <Input label='Username:' ref={usernameRef} disabled={disabled} />
       <Input
-        label="Password:"
-        type="password"
+        label='Password:'
+        type='password'
         ref={passwordRef}
         disabled={disabled}
       />
-      {error && <div className="m-login-form__error">{error}</div>}
-      <div className="m-login-form__footer">
-        <Button isLoading={isLoading} disabled={disabled} type="submit" primary>
+      {error && <div className='m-login-form__error'>{error}</div>}
+      <div className='m-login-form__footer'>
+        <Button isLoading={isLoading} disabled={disabled} type='submit' primary>
           Submit
         </Button>
         <Button disabled={disabled} onClick={handleCancel}>

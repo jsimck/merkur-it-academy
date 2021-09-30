@@ -1,5 +1,3 @@
-import { h } from 'preact';
-
 import cn from 'classnames';
 
 import { Loader } from '#/components/atom';
@@ -24,7 +22,8 @@ export default function Button({
         },
         className
       )}
-      {...restProps}>
+      {...restProps}
+    >
       {isLoading ? <Loader /> : children}
     </button>
   );

@@ -1,5 +1,3 @@
-import { h } from 'preact';
-
 import { TextButton } from '#/components/atom';
 import { useLogout, useWidget } from '#/components/hooks';
 
@@ -16,22 +14,23 @@ export default function User() {
   };
 
   return (
-    <div className="m-user">
+    <div className='m-user'>
       {state.user?.avatar && (
         <img
-          className="m-user__img"
+          className='m-user__img'
           src={state.user?.avatar}
           alt={state.user?.displayName ?? state.user?.username}
         />
       )}
-      <span className="m-user__name">
+      <span className='m-user__name'>
         {state.user?.displayName ?? state.user?.username}
       </span>
-      <span className="m-user__separator"></span>
+      <span className='m-user__separator'></span>
       <TextButton
         disabled={isLoading}
         onClick={handleLogout}
-        className="m-user_btn">
+        className='m-user_btn'
+      >
         Logout
       </TextButton>
     </div>
