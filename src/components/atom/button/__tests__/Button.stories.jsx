@@ -8,6 +8,17 @@ export default {
   args: {
     children: 'Click me',
   },
+  argTypes: {
+    primary: {
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'If the button has primary styling',
+    },
+    isLoading: {
+      type: 'boolean',
+      description: 'Is the button in loading state?',
+    },
+  },
   decorators: [
     (Story) => (
       <div style={{ width: '10em' }}>
@@ -17,9 +28,7 @@ export default {
   ],
 };
 
-const Template = (args) => {
-  return <Button {...args} />;
-};
+const Template = (args) => <Button {...args} />;
 
 export const Primary = Template.bind({});
 Primary.args = { primary: true };
