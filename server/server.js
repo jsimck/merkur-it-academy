@@ -17,7 +17,7 @@ process.on('unhandledRejection', (error) => {
 
 if (!serverConfig.clusters || !cluster.isMaster) {
   app.listen(config.get('server.port'), () => {
-    console.log(`listen on localhost:${config.get('server.port')}`); // eslint-disable-line no-console
+    console.log(`listen on http://localhost:${config.get('server.port')}`); // eslint-disable-line no-console
   });
 } else {
   let cpuCount = serverConfig.clusters || os.cpus().length;

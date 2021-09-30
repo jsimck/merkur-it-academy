@@ -27,7 +27,9 @@ const decorators = [
    (Story, { loaded: { widget }}) => {
     return (
       <WidgetContext.Provider value={widget}>
-        <Story />
+				<div className="m-merkur-login">
+					<Story />
+				</div>
       </WidgetContext.Provider>
     );
   },
