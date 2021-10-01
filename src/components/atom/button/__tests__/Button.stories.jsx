@@ -14,10 +14,6 @@ export default {
       defaultValue: 'false',
       description: 'If the button has primary styling',
     },
-    isLoading: {
-      type: 'boolean',
-      description: 'Is the button in loading state?',
-    },
   },
   decorators: [
     (Story) => (
@@ -35,9 +31,3 @@ Primary.args = { primary: true };
 
 export const Secondary = Template.bind({});
 Secondary.args = {};
-
-export const PrimaryLoading = Template.bind({});
-PrimaryLoading.args = { primary: true, isLoading: true };
-
-export const SecondaryLoading = Template.bind({});
-SecondaryLoading.args = { primary: false, isLoading: true };

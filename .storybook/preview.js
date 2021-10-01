@@ -34,9 +34,9 @@ const decorators = [
 
     return (
       <WidgetContext.Provider value={widget}>
-				<div className="m-merkur-login">
-					<Story />
-				</div>
+		<div className="m-merkur-login">
+			<Story />
+		</div>
       </WidgetContext.Provider>
     );
   },

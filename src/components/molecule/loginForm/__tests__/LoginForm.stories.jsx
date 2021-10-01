@@ -29,6 +29,3 @@ Disabled.args = { disabled: true };
 
 export const ErrorState = Template.bind({});
 ErrorState.args = { error: 'Error message' };
-
-export const LoadingState = Template.bind({});
-LoadingState.args = { isLoading: true };

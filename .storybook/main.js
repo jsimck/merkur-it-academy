@@ -67,21 +67,12 @@ module.exports = {
     '../src/**/*.stories.@(js|jsx|ts|tsx)'
   ],
   addons: [
-		'storybook-addon-outline',
-		'storybook-addon-pseudo-states',
-		'@storybook/addon-links',
+	'storybook-addon-outline',
+	'storybook-addon-pseudo-states',
     {
 			name: '@storybook/addon-essentials',
 			options: {
 				measure: false
-			}
-		},
-		{
-			name: '@storybook/addon-postcss',
-			options: {
-				postcssLoaderOptions: {
-					implementation: require('postcss') // eslint-disable-line global-require
-				}
 			}
 		},
     '@whitespace/storybook-addon-html',
