@@ -40,4 +40,4 @@ export const PrimaryLoading = Template.bind({});
 PrimaryLoading.args = { primary: true, isLoading: true };
 
 export const SecondaryLoading = Template.bind({});
-SecondaryLoading.args = { isLoading: true };
+SecondaryLoading.args = { primary: false, isLoading: true };

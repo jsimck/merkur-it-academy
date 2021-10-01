@@ -9,7 +9,34 @@ describe('Widget', () => {
     expect(res.statusCode).toEqual(200);
     expect(res.body.assets.length).toBeGreaterThan(0);
     delete res.body.assets;
-    expect(res.body).toMatchInlineSnapshot();
+    expect(res.body).toMatchInlineSnapshot(`
+      Object {
+        "containerSelector": null,
+        "error": Object {
+          "message": null,
+          "status": null,
+        },
+        "html": "<div class=\\"m-merkur-login\\"><div class=\\"m-login-button\\"><button disabled class=\\"m-text-button\\">Sign in</button></div></div>",
+        "name": "merkur-login",
+        "props": Object {
+          "environment": Object {
+            "apiUrl": "https://api.github.dev/",
+          },
+        },
+        "slots": Object {
+          "modal": Object {
+            "html": "",
+            "name": "modal",
+          },
+        },
+        "state": Object {
+          "error": null,
+          "isModalVisible": false,
+          "user": null,
+        },
+        "version": "0.0.1",
+      }
+    `);
   });
 
   it('should return 404 for not defined route', async () => {
