@@ -4,31 +4,6 @@ import { Button, Input } from '#/components/atom';
 
 import './loginForm.less';
 
-function useLoginForm({ onSubmit, onCancel }) {
-  const usernameRef = useRef(null);
-  const passwordRef = useRef(null);
-
-  const handleCancel = (event) => {
-    event.preventDefault();
-    onCancel();
-  };
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    onSubmit({
-      username: usernameRef.current.value,
-      password: passwordRef.current.value,
-    });
-  };
-
-  return {
-    usernameRef,
-    passwordRef,
-    handleCancel,
-    handleSubmit,
-  };
-}
-
 export default function LoginForm({
   onSubmit,
   onCancel,
@@ -36,9 +11,17 @@ export default function LoginForm({
   disabled = false,
   isLoading = false,
 }) {
-  const { passwordRef, usernameRef, handleCancel, handleSubmit } = useLoginForm(
-    { onSubmit, onCancel }
-  );
+  const usernameRef = useRef(null);
+  const passwordRef = useRef(null);
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    onSubmit({
+      username: usernameRef.current.value,
+      password: passwordRef.current.value,
+    });
+  };
 
   return (
     <form onSubmit={handleSubmit} className='m-login-form'>
@@ -54,7 +37,7 @@ export default function LoginForm({
         <Button isLoading={isLoading} disabled={disabled} type='submit' primary>
           Submit
         </Button>
-        <Button disabled={disabled} onClick={handleCancel}>
+        <Button disabled={disabled} onClick={onCancel}>
           Close
         </Button>
       </div>

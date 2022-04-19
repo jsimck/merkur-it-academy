@@ -1,29 +1,36 @@
-import { useCallback } from 'preact/hooks';
+import { useContext, useState } from 'preact/hooks';
 
 import { Modal } from '#/components/atom';
-import { useLogin, useWidget } from '#/components/hooks';
 import { LoginForm } from '#/components/molecule';
+import WidgetContext from '#/components/WidgetContext';
 
 export default function LoginModal() {
-  const { closeModal } = useWidget();
-  const { isLoading, login, error } = useLogin();
+  const widget = useContext(WidgetContext);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-  const handleClose = useCallback(() => {
-    closeModal();
-  }, [closeModal]);
+  const loginHandler = async ({ username, password }) => {
+    try {
+      setIsLoading(true);
+      await widget.login({ username, password });
 
-  const handleSubmit = useCallback(
-    ({ username, password }) => {
-      login({ username, password });
-    },
-    [login]
-  );
+      widget.setState({
+        isModalVisible: false,
+      });
+    } catch (e) {
+      setError(e?.response?.body?.message ?? e);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
-    <Modal title='Sign in' onBackdrop={handleClose}>
+    <Modal title='Sign in' onBackdrop={widget.closeModal}>
       <LoginForm
-        onCancel={handleClose}
-        onSubmit={handleSubmit}
+        onCancel={widget.closeModal}
+        onSubmit={({ username, password }) => {
+          loginHandler({ username, password });
+        }}
         disabled={isLoading}
         isLoading={isLoading}
         error={error}

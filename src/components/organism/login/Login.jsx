@@ -1,28 +1,39 @@
-import { useEffect } from 'preact/hooks';
+import { useContext, useEffect, useState } from 'preact/hooks';
 
 import { TextButton } from '#/components/atom';
-import { useCheck, useWidget } from '#/components/hooks';
 import { User } from '#/components/molecule';
+import WidgetContext from '#/components/WidgetContext';
 
 import './login.less';
 
 export default function Login() {
-  const {
-    openModal,
-    widget: { state },
-  } = useWidget();
-  const { check, isLoading } = useCheck();
+  const widget = useContext(WidgetContext);
+  const [isLoading, setIsLoading] = useState(true);
 
   // Call only on component mount
   useEffect(() => {
-    check();
+    if (typeof window === 'undefined') {
+      setIsLoading(false);
+      return null;
+    }
+
+    // "autologin" functionality
+    widget
+      .check()
+      .catch((error) => {
+        setIsLoading(false);
+        console.error(error);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   }, []);
 
-  return state?.user ? (
+  return widget?.state?.user ? (
     <User />
   ) : (
     <div className='m-login__button'>
-      <TextButton disabled={isLoading} onClick={() => openModal()}>
+      <TextButton disabled={isLoading} onClick={widget.openModal}>
         Sign in
       </TextButton>
     </div>

@@ -1,10 +1,10 @@
-import request from 'supertest';
+import request from "supertest";
 
-import { app } from '../app';
+import { app } from "../app";
 
-describe('Widget', () => {
-  it('should return merkur JSON structure for widget', async () => {
-    const res = await request(app).get('/widget');
+describe("Widget", () => {
+  it("should return merkur JSON structure for widget", async () => {
+    const res = await request(app).get("/widget");
 
     expect(res.statusCode).toEqual(200);
     expect(res.body.assets.length).toBeGreaterThan(0);
@@ -16,7 +16,7 @@ describe('Widget', () => {
           "message": null,
           "status": null,
         },
-        "html": "<div class=\\"m-merkur-login\\"><div class=\\"m-login__button\\"><button disabled class=\\"m-text-button\\">Sign in</button></div></div>",
+        "html": "<div class=\\"m-merkur-login\\"><div class=\\"m-login__button\\"><button type=\\"button\\" disabled class=\\"m-text-button\\">Sign in</button></div></div>",
         "name": "merkur-login",
         "props": Object {
           "environment": Object {
@@ -39,15 +39,15 @@ describe('Widget', () => {
     `);
   });
 
-  it('should return 404 for not defined route', async () => {
-    const res = await request(app).get('/x');
+  it("should return 404 for not defined route", async () => {
+    const res = await request(app).get("/x");
 
     expect(res.statusCode).toEqual(404);
     expect(res.body.error.status).toEqual(404);
   });
 
-  it('should return 200 for playground page', async () => {
-    const res = await request(app).get('/');
+  it("should return 200 for playground page", async () => {
+    const res = await request(app).get("/");
 
     expect(res.statusCode).toEqual(200);
   });
