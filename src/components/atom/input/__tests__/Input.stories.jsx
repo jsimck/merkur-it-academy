@@ -24,9 +24,3 @@ Default.args = {};
 
 export const Disabled = Template.bind({});
 Disabled.args = { disabled: true };
-
-export const EmailType = Template.bind({});
-EmailType.args = { type: 'email' };
-
-export const NumberType = Template.bind({});
-NumberType.args = { type: 'number' };

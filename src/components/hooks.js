@@ -33,7 +33,7 @@ function useLogin() {
         isModalVisible: false,
       });
     } catch (e) {
-      setError(e.message);
+      setError(e?.response?.body?.message ?? e);
     } finally {
       setIsLoading(false);
     }

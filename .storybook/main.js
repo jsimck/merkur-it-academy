@@ -1,8 +1,6 @@
 const fs = require('fs');
 const path = require('path');
 
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-
 const { applyStyleLoaders, pipe } = require('@merkur/tool-webpack');
 const { applyBabelLoader } = require('../tools/babelLoaders');
 const { applyAliases } = require('../tools/utilityLoaders');
@@ -48,6 +46,7 @@ module.exports = {
 				}
 
 				config.resolve.alias.storybook = path.resolve(__dirname, '');
+				
 
 				// hide performance warnings
 				config.performance = {
@@ -67,15 +66,9 @@ module.exports = {
     '../src/**/*.stories.@(js|jsx|ts|tsx)'
   ],
   addons: [
-	'storybook-addon-outline',
-	'storybook-addon-pseudo-states',
     {
-			name: '@storybook/addon-essentials',
-			options: {
-				measure: false
-			}
+			name: '@storybook/addon-essentials'
 		},
-    '@whitespace/storybook-addon-html',
 	],
   core: {
     builder: 'webpack5'

@@ -58,9 +58,9 @@ function loginApi() {
     closeModal(widget) {
       widget.setState({ isModalVisible: false });
     },
-    async login(widget, body) {
+    async login(widget, data) {
       return widget
-        .fetchApi('/auth/login', body, {
+        .fetchApi('/auth/login', data, {
           method: 'POST',
         })
         .then((response) =>
