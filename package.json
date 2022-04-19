@@ -8,7 +8,7 @@
     "test:integration": "npm run build; TEST_GROUP='integration' NODE_CONFIG_DIR='./server/config' jest -c ./jest.config.js",
     "test:all": "npm run build; TEST_GROUP='all' NODE_CONFIG_DIR='./server/config' jest -c ./jest.config.js",
     "test:watch": "TEST_GROUP='unit' jest -c ./jest.config.js --watchAll",
-    "lint": "eslint -c ./.eslintrc.js --ignore-path ./.prettierignore './**/*.{js,jsx}'",
+    "lint": "eslint -c ./.eslintrc.js './**/*.{js,jsx}'",
     "dev": "NODE_ENV=development webpack --config ./webpack.config.js --watch",
     "build": "NODE_ENV=production webpack --config ./webpack.config.js",
     "start": "NODE_CONFIG_DIR='./server/config' NODE_ENV=production node server/server.js",
