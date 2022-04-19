@@ -1,10 +1,14 @@
 import { useEffect } from 'preact/hooks';
 
+import { TextButton } from '#/components/atom';
 import { useCheck, useWidget } from '#/components/hooks';
-import { User, LoginButton } from '#/components/molecule';
+import { User } from '#/components/molecule';
+
+import './login.less';
 
 export default function Login() {
   const {
+    openModal,
     widget: { state },
   } = useWidget();
   const { check, isLoading } = useCheck();
@@ -14,5 +18,13 @@ export default function Login() {
     check();
   }, []);
 
-  return state?.user ? <User /> : <LoginButton disabled={isLoading} />;
+  return state?.user ? (
+    <User />
+  ) : (
+    <div className='m-login__button'>
+      <TextButton disabled={isLoading} onClick={() => openModal()}>
+        Sign in
+      </TextButton>
+    </div>
+  );
 }
