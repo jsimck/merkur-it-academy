@@ -5,9 +5,6 @@ const { applyStyleLoaders, pipe } = require('@merkur/tool-webpack');
 const { applyBabelLoader } = require('../tools/babelLoaders');
 const { applyAliases } = require('../tools/utilityLoaders');
 
-// Has to be required for storybook to work
-require(path.resolve('./', 'webpack.config.js'));
-
 function insertAfterLastAtStorybookEntry(entries, entry) {
 	let lastAtStorybookIndex = entries.length - 1;
 
@@ -46,7 +43,6 @@ module.exports = {
 				}
 
 				config.resolve.alias.storybook = path.resolve(__dirname, '');
-				
 
 				// hide performance warnings
 				config.performance = {
@@ -61,10 +57,9 @@ module.exports = {
 			useLessLoader: true,
 		  });
 	},
-  stories: [
-    '../src/**/*.stories.mdx',
-    '../src/**/*.stories.@(js|jsx|ts|tsx)'
-  ],
+	stories: [
+		path.resolve('./src/**/*.stories.@(js|jsx|mdx)').replace(/\\/g, '/')
+	],
   addons: [
     {
 			name: '@storybook/addon-essentials'

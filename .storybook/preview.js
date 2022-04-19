@@ -3,9 +3,10 @@ import { forceReRender } from '@storybook/preact';
 
 import { createWidgetLoader } from '@merkur/tool-storybook';
 
-import { devices } from '../regression.config';
+import devices from './devices';
 import WidgetContext from '../src/components/WidgetContext';
 import widgetProperties from '../src/widget';
+import { loginApi } from '../src/lib/utils';
 
 const viewports = devices.map(
 	({ name, width, height, isTablet, isMobile }) => ({
