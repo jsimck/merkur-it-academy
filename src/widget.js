@@ -9,7 +9,7 @@ import {
   transformQuery,
 } from '@merkur/plugin-http-client';
 
-import { fetchApi, loginApi } from './lib/utils';
+import { fetchApi } from './lib/utils';
 
 import pkg from '../package.json';
 

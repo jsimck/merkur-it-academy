@@ -6,7 +6,6 @@ import { createWidgetLoader } from '@merkur/tool-storybook';
 import devices from './devices';
 import WidgetContext from '../src/components/WidgetContext';
 import widgetProperties from '../src/widget';
-import { loginApi } from '../src/lib/utils';
 
 const viewports = devices.map(
 	({ name, width, height, isTablet, isMobile }) => ({
@@ -30,7 +29,6 @@ const decorators = [
 	(Story, { args: { widget }}) => {
 		widget = {
 			...widget,
-			...loginApi()
 		};
 
 	 return (
