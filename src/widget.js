@@ -9,8 +9,6 @@ import {
   transformQuery,
 } from '@merkur/plugin-http-client';
 
-import { fetchApi } from './lib/utils';
-
 import pkg from '../package.json';
 
 export default {
@@ -41,17 +39,8 @@ export default {
     const { environment, ...restProps } = widget.props;
 
     return {
-      isModalVisible: false,
-      error: null,
-      user: null,
       ...restProps,
     };
-  },
-  setup(widget) {
-    widget.fetchApi = fetchApi;
-    bindWidgetToFunctions(widget, widget.fetchApi);
-
-    return widget;
   },
   bootstrap(widget) {
     // Init http client default config
@@ -59,35 +48,6 @@ export default {
       transformers: [transformBody(), transformQuery()],
     });
   },
-  openModal(widget) {
-    widget.setState({ isModalVisible: true });
-  },
-  closeModal(widget) {
-    widget.setState({ isModalVisible: false });
-  },
-  async login(widget, data) {
-    return widget
-      .fetchApi('/auth/login', data, {
-        method: 'POST',
-      })
-      .then((response) =>
-        widget.setState({
-          user: response?.body?.data?.user,
-        })
-      );
-  },
-  async logout(widget) {
-    return widget.fetchApi('/auth/logout').then(() =>
-      widget.setState({
-        user: null,
-      })
-    );
-  },
-  async check(widget) {
-    return widget.fetchApi('/auth/check').then((response) =>
-      widget.setState({
-        user: response?.body?.data?.user,
-      })
-    );
-  },
+  // TODO Create fetchAPI
+  // TODO Define widget public API methods
 };
