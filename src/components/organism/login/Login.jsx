@@ -22,7 +22,7 @@ export default function Login() {
       .check()
       .catch((error) => {
         setIsLoading(false);
-        console.error(error);
+        console.warn(error);
       })
       .finally(() => {
         setIsLoading(false);

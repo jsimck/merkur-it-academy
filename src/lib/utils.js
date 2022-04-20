@@ -50,40 +50,4 @@ async function fetchApi(
   return response;
 }
 
-function loginApi() {
-  return {
-    openModal(widget) {
-      widget.setState({ isModalVisible: true });
-    },
-    closeModal(widget) {
-      widget.setState({ isModalVisible: false });
-    },
-    async login(widget, data) {
-      return widget
-        .fetchApi('/auth/login', data, {
-          method: 'POST',
-        })
-        .then((response) =>
-          widget.setState({
-            user: response?.body?.data?.user,
-          })
-        );
-    },
-    async logout(widget) {
-      return widget.fetchApi('/auth/logout').then(() =>
-        widget.setState({
-          user: null,
-        })
-      );
-    },
-    async check(widget) {
-      return widget.fetchApi('/auth/check').then((response) =>
-        widget.setState({
-          user: response?.body?.data?.user,
-        })
-      );
-    },
-  };
-}
-
-export { mapViews, fetchApi, loginApi };
+export { mapViews, fetchApi };
