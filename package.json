@@ -13,7 +13,8 @@
     "build": "NODE_ENV=production webpack --config ./webpack.config.js",
     "start": "NODE_CONFIG_DIR='./server/config' NODE_ENV=production node server/server.js",
     "storybook": "start-storybook -p 6006",
-    "regression": "build-storybook --quiet && loki --requireReference --reactUri file:./storybook-static",
+    "storybook:build": "build-storybook --quiet",
+    "regression": "npm run storybook:build && loki --requireReference --reactUri file:./storybook-static",
     "regression:test": "npm run regression -- test",
     "regression:approve": "npm run regression -- approve"
   },
