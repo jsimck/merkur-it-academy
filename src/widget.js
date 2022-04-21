@@ -48,6 +48,4 @@ export default {
       transformers: [transformBody(), transformQuery()],
     });
   },
-  // TODO Create fetchAPI
-  // TODO Define widget public API methods
 };

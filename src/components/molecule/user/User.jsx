@@ -6,7 +6,6 @@ import WidgetContext from '#/components/WidgetContext';
 import './user.less';
 
 export default function User() {
-  // TODO Render user from widget.state
   return (
     <div className='m-user'>
       <img className='m-user__img' />
