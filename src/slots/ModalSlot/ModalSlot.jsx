@@ -13,15 +13,9 @@ function ModalSlot(widget) {
     return null;
   }
 
-  if (!widget.state.isModalVisible) {
-    return null;
-  }
-
   return (
     <WidgetContext.Provider value={widget}>
-      <div className='m-merkur-login'>
-        <LoginModal />
-      </div>
+      <div className='m-merkur-login'></div>
     </WidgetContext.Provider>
   );
 }
