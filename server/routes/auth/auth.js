@@ -89,13 +89,7 @@ router
     }
   })
   .get('/logout', async (req, res) => {
-    try {
-      res.status(200).clearCookie(AUTH_COOKIE).end();
-    } catch (error) {
-      return res.status(500).json({
-        message: error.message,
-      });
-    }
+    // TODO
   });
 
 module.exports = () => ({ router });

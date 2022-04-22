@@ -25,29 +25,4 @@ async function mapViews(widget, factoryFn, callback) {
   });
 }
 
-async function fetchApi(
-  widget,
-  resource,
-  body,
-  options = {
-    method: 'GET',
-  }
-) {
-  const { response } = await widget.http.request({
-    url: `${BASE_API_URL}${resource}`,
-    method: options?.method ?? 'GET',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    },
-    body,
-  });
-
-  if (!response?.ok) {
-    throw new Error(response?.body?.message ?? 'Unknown error.');
-  }
-
-  return response;
-}
-
-export { mapViews, fetchApi };
+export { mapViews };
